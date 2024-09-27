@@ -1,0 +1,39 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: test-kafka
+
+resources:
+  - ./../../base/kafka
+  - ./../../base/grafana
+  - ./../../base/influxDB
+  - ./../../base/telegraf
+
+secretGenerator:
+  - name: my-secret
+    literals:
+      - username=admin
+      - password=secretpassword
+
+configMapGenerator:
+  - name: telegraf-config
+    files:
+      - telegraf.conf
+  - name: zookeeper-config
+    literals:
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+  - name: kafka-config
+    literals:
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=2
+      - KAFKA_LOG_DIRS=/var/lib/kafka/data
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+  - name: influxdb-config
+    literals:
+      - INFLUXDB_HOST=influxdb-service
+      - INFLUXDB_PORT=8086
+      - INFLUXDB_USERNAME=admin
+      - INFLUXDB_PASSWORD=dontusemepassword
+      - INFLUXDB_ORG=my-org
+      - INFLUXDB_BUCKET=my-bucket
+      - INFLUXDB_TOKEN=my-token

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telegraf-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: telegraf
+  template:
+    metadata:
+      labels:
+        app: telegraf
+    spec:
+      containers:
+      - name: telegraf
+        image: telegraf:1.19
+        envFrom:
+        - configMapRef:
+            name: influxdb-config
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/telegraf/telegraf.conf
+          subPath: telegraf.conf
+        command: ["telegraf", "--config", "/etc/telegraf/telegraf.conf"]
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+      volumes:
+      - name: config-volume
+        configMap:
+          name: telegraf-config
