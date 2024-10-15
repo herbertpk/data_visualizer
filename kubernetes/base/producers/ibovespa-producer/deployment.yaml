@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibovespa-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ibovespa-producer
+  template:
+    metadata:
+      labels:
+        app: ibovespa-producer
+    spec:
+      containers:
+      - name: ibovespa-producer
+        image: herbertrmonteiro/ibovespa-producer:1.0
+        imagePullPolicy: Always
+        env:
+        - name: KAFKA_SERVER
+          value: "kafka1:9092,kafka2:9092,kafka3:9092"  # Replace with your Kafka server address if different
+        - name: INTERVAL
+          value: "1"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+  
+
+

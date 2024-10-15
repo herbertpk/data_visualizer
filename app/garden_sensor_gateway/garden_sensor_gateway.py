@@ -17,7 +17,7 @@ def set_variation_based_on_interval(interval):
     # Adding 1 to avoid log(0) which is undefined
     log_interval = math.log(interval + 1)
     # Scale the logarithmic value to the desired variation range
-    variation = max(log_interval)
+    variation = log_interval
     return variation
 
 
@@ -84,7 +84,6 @@ def main():
             producer.produce('garden_sensor_data', bytes(f'{json_data}','UTF-8'))
             log.info(f"Sensor data is sent: {json_data}")
             time.sleep(interval)
-
         producer.flush()
         
 

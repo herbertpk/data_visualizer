@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka3
+  template:
+    metadata:
+      labels:
+        app: kafka3
+    spec:
+      containers:
+        - name: kafka3
+          image: confluentinc/cp-kafka:latest
+          env:
+            - name: KAFKA_BROKER_ID
+              value: "3"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://kafka3:9092"
+          envFrom:
+          - configMapRef:
+              name: kafka-config
+          ports:
+            - containerPort: 9092
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+      #     volumeMounts:
+      #       - name: kafka3-data
+      #         mountPath: /var/lib/kafka/data
+      # volumes:
+      #   - name: kafka3-data
+      #     persistentVolumeClaim:
+      #       claimName: kafka3-pvc

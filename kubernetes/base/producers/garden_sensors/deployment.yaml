@@ -14,10 +14,15 @@ spec:
     spec:
       containers:
       - name: garden-sensor-gateway
-        image: herbertrmonteiro/multidata-kafka-producer:1.0
+        image: herbertrmonteiro/multidata-kafka-producer:1.5
+        imagePullPolicy: Always
         env:
         - name: KAFKA_SERVER
-          value: "kafka1:9092,kafka2:9092"  # Replace with your Kafka server address if different
+          value: "kafka1:9092,kafka2:9092,kafka3:9092"  # Replace with your Kafka server address if different
+        - name: BUFFER_SIZE
+          value: "10"
+        - name: INTERVAL
+          value: "1"
         resources:
           requests:
             memory: "64Mi"

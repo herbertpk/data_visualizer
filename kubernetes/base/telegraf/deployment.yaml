@@ -18,6 +18,10 @@ spec:
         envFrom:
         - configMapRef:
             name: influxdb-config
+        - configMapRef:
+            name: telegraf-config
+        - configMapRef:
+            name: kafka-config
         volumeMounts:
         - name: config-volume
           mountPath: /etc/telegraf/telegraf.conf
@@ -33,4 +37,4 @@ spec:
       volumes:
       - name: config-volume
         configMap:
-          name: telegraf-config
+          name: telegraf-conf

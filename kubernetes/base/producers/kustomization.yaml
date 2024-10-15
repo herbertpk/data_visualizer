@@ -2,8 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - kafka1/
-  - kafka2/
-  - kafka3/
-  - kafkaui/
-  - zookeper/
+  - garden_sensors/
+  - ibovespa-producer/
