@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: garden-sensor-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: garden-sensor-gateway
+  template:
+    metadata:
+      labels:
+        app: garden-sensor-gateway
+    spec:
+      containers:
+      - name: garden-sensor-gateway
+        image: herbertrmonteiro/multidata-kafka-producer:1.0
+        env:
+        - name: KAFKA_SERVER
+          value: "kafka1:9092,kafka2:9092"  # Replace with your Kafka server address if different
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+  

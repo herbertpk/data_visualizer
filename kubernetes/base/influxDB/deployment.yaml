@@ -17,6 +17,9 @@ spec:
         image: influxdb:2.0
         ports:
         - containerPort: 8086
+        envFrom:
+        - configMapRef:
+            name: influxdb-config
         volumeMounts:
         - name: influxdb-storage
           mountPath: /var/lib/influxdb2
@@ -31,4 +34,4 @@ spec:
       volumes:
       - name: influxdb-storage
         persistentVolumeClaim:
-          claimName: influxdb-pvc
+          claimName: influxdb2-pvc
