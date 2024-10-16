@@ -1,5 +1,5 @@
 # Ignore virtual environment in app folder
-/app/*/venv/
+app/venv
 
 # Ignore all .DS_Store files
 .DS_Store
